@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-xx)pd@oyo3$i9g!qn_lbb6_#6i3!c2bmgq-2(za2go(i+x2g(*
 
 DEBUG = True
 
-ALLOWED_HOSTS = [] #'mytopfood.zapto.org'
+ALLOWED_HOSTS = ['158.160.77.229', '127.0.0.1', 'localhost', 'mytopfood.zapto.org']
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
@@ -167,3 +167,6 @@ LOGGING = {
         },
     },
 }
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend'
+]

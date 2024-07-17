@@ -91,7 +91,6 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
 # Celery stuff
@@ -104,8 +103,6 @@ celerybeat.pid
 # Environments
 .env
 .venv
-.venv/
-.env/
 env/
 venv/
 ENV/
@@ -130,9 +127,25 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# .idea
+# Папки, создаваемые средой разработки
 .idea
-.vscode
+.DS_Store
+.AppleDouble
+.LSOverride
 
-static/
+*.sublime-project
+*.sublime-workspace
+
+.vscode/
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+.mypy_cache
+
+# папки со статикой и медиа
 media/
+
+# Others
+node_modules
