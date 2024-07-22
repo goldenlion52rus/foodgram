@@ -170,3 +170,5 @@ LOGGING = {
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
+
+HOST = "https://mytopfood.zapto.org"

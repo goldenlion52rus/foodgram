@@ -1,4 +1,9 @@
+import base64 #
+import datetime as dt #
 from collections import OrderedDict
+
+from rest_framework import serializers #
+from django.core.files.base import ContentFile #
 
 from core.services import recipe_ingredients_set
 from core.validators import ingredients_validator, tags_exist_validator
@@ -6,11 +11,21 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.models import F, QuerySet
 from django.db.transaction import atomic
-from drf_extra_fields.fields import Base64ImageField
 from recipes.models import Ingredient, Recipe, Tag
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 User = get_user_model()
+
+
+class Base64ImageField(serializers.ImageField):
+    def to_internal_value(self, data):
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+        return super().to_internal_value(data)
 
 
 class ShortRecipeSerializer(ModelSerializer):
@@ -39,6 +54,7 @@ class UserSerializer(ModelSerializer):
             "last_name",
             "is_subscribed",
             "password",
+            "avatar",
         )
         extra_kwargs = {"password": {"write_only": True}}
         read_only_fields = ("is_subscribed",)
@@ -99,6 +115,7 @@ class UserSubscribeSerializer(UserSerializer):
             "is_subscribed",
             "recipes",
             "recipes_count",
+	    "avatar",
         )
         read_only_fields = ("__all__",)
 
@@ -165,7 +182,7 @@ class RecipeSerializer(ModelSerializer):
     ingredients = SerializerMethodField()
     is_favorited = SerializerMethodField()
     is_in_shopping_cart = SerializerMethodField()
-    image = Base64ImageField()
+    image = Base64ImageField(required=False)
 
     class Meta:
         model = Recipe
@@ -276,6 +293,7 @@ class RecipeSerializer(ModelSerializer):
         """
         tags: list[int] = validated_data.pop("tags")
         ingredients: dict[int, tuple] = validated_data.pop("ingredients")
+        image = validated_data.get("image", None)
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
         recipe_ingredients_set(recipe, ingredients)
@@ -293,6 +311,7 @@ class RecipeSerializer(ModelSerializer):
             Recipe: Обновлённый рецепт.
         """
         tags = validated_data.pop("tags")
+        image = validated_data.get("image")
         ingredients = validated_data.pop("ingredients")
 
         for key, value in validated_data.items():
@@ -309,3 +328,19 @@ class RecipeSerializer(ModelSerializer):
 
         recipe.save()
         return recipe
+
+#
+class RecipeFollowSerializer(serializers.ModelSerializer):
+    image = Base64ImageField()
+
+    class Meta:
+        model = Recipe
+        fields = ('id', 'name', 'image', 'cooking_time')
+
+
+class UserAvatarSerializer(serializers.ModelSerializer):
+    avatar = Base64ImageField()
+
+    class Meta:
+        model = User
+        fields = ("avatar",)

@@ -6,12 +6,15 @@ from api.permissions import (
     DjangoModelPermissions,
     IsAuthenticated,
 )
+from django.conf import settings
+from rest_framework.generics import get_object_or_404
 from api.serializers import (
     IngredientSerializer,
     RecipeSerializer,
     ShortRecipeSerializer,
     TagSerializer,
     UserSubscribeSerializer,
+    UserAvatarSerializer
 )
 from core.enums import Tuples, UrlQueries
 from core.services import create_shoping_list, maybe_incorrect_layout
@@ -21,6 +24,7 @@ from django.db.models import Q, QuerySet
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet as DjoserUserViewSet
 from recipes.models import Carts, Favorites, Ingredient, Recipe, Tag
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.routers import APIRootView
@@ -76,6 +80,27 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
         self, request: WSGIRequest, id: int
     ) -> Response:
         return self._delete_relation(Q(author__id=id))
+
+    @action(
+        methods=["PUT", "DELETE"],
+        permission_classes=[IsAuthenticated],
+        detail=False,
+        url_path="me/avatar",
+    )
+    def avatar(self, request):
+        if request.method == "PUT":
+            instance = self.get_instance()
+            serializer = UserAvatarSerializer(instance, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        if request.method == "DELETE":
+            instance = self.get_instance()
+            instance.avatar = None
+            instance.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
 
     @action(
         methods=("get",), detail=False, permission_classes=(IsAuthenticated,)
@@ -281,3 +306,17 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         )
         response["Content-Disposition"] = f"attachment; filename={filename}"
         return response
+
+
+    @action(
+        detail=True,
+        methods=["GET"],
+        url_path="get-link",
+    )
+    def get_link(self, request, pk):
+        get_object_or_404(Recipe, id=pk)
+        return Response(
+            {"short-link": f"{settings.HOST}/recipes/{pk}"},
+            status=status.HTTP_200_OK
+        )
+

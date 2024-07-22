@@ -21,7 +21,7 @@ from django.db.models import (
     ForeignKey,
     Model,
     Q,
-    UniqueConstraint,
+    UniqueConstraint, ImageField
 )
 from django.db.models.functions import Length
 from django.utils.translation import gettext_lazy as _
@@ -110,6 +110,11 @@ class MyUser(AbstractUser):
     is_active = BooleanField(
         verbose_name="Активирован",
         default=True,
+    )
+    avatar = ImageField(
+        "Аватар",
+        upload_to="avatars",
+        null=True,
     )
 
     class Meta:
