@@ -4,7 +4,7 @@ services:
 
   frontend:
     container_name: foodgram-front
-    # image: xewus/foodgram_front:latest
+    image: goldenlion52rus/foodgram_front:latest
     build: ../frontend
     volumes:
       - ./frontend/:/app/result_build/
@@ -20,7 +20,7 @@ services:
 
   backend:
     container_name: foodgram-app
-    # image: xewus/foodgram_back:latest
+    image: goldenlion52rus/foodgram_back:latest
     build: ../backend
     restart: always
     volumes:
@@ -34,7 +34,7 @@ services:
     image: nginx:1.23.3-alpine
     restart: always
     ports:
-      # - 8001:80
+      - 8008:80
       - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
