@@ -10,7 +10,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['158.160.77.229', '127.0.0.1', 'localhost', 'mytopfood.zapto.org']
 

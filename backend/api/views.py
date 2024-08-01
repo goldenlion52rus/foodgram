@@ -102,7 +102,6 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
             instance.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-
     @action(
         methods=("get",), detail=False, permission_classes=(IsAuthenticated,)
     )
@@ -308,7 +307,6 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         response["Content-Disposition"] = f"attachment; filename={filename}"
         return response
 
-
     @action(
         detail=True,
         methods=["GET"],
@@ -320,4 +318,3 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
             {"short-link": f"{settings.HOST}/recipes/{pk}"},
             status=status.HTTP_200_OK
         )
-

@@ -1,5 +1,4 @@
 import base64
-import datetime as dt
 from collections import OrderedDict
 
 from django.contrib.auth import get_user_model
@@ -115,7 +114,7 @@ class UserSubscribeSerializer(UserSerializer):
             "is_subscribed",
             "recipes",
             "recipes_count",
-	    "avatar",
+            "avatar",
         )
         read_only_fields = ("__all__",)
 
@@ -294,6 +293,10 @@ class RecipeSerializer(ModelSerializer):
         tags: list[int] = validated_data.pop("tags")
         ingredients: dict[int, tuple] = validated_data.pop("ingredients")
         image = validated_data.get("image", None)
+        if not image:
+            raise serializers.ValidationError(
+                'Поле "image" не может быть пустым.'
+            )
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
         recipe_ingredients_set(recipe, ingredients)
@@ -312,6 +315,10 @@ class RecipeSerializer(ModelSerializer):
         """
         tags = validated_data.pop("tags")
         image = validated_data.get("image")
+        if not image:
+            raise serializers.ValidationError(
+                'Поле "image" не может быть пустым.', code="invalid_image"
+            )
         ingredients = validated_data.pop("ingredients")
 
         for key, value in validated_data.items():
@@ -329,7 +336,7 @@ class RecipeSerializer(ModelSerializer):
         recipe.save()
         return recipe
 
-#
+
 class RecipeFollowSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
 

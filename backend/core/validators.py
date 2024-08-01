@@ -44,9 +44,9 @@ class OneOfTwoValidator:
 
     def __init__(
         self,
-        first_regex = None,
-        second_regex = None,
-        field = None,
+        first_regex=None,
+        second_regex=None,
+        field=None,
     ) -> None:
         if first_regex is not None:
             self.first_regex = first_regex
@@ -88,9 +88,9 @@ class MinLenValidator:
 
     def __init__(
         self,
-        min_len = None,
-        field = None,
-        message = None,
+        min_len=None,
+        field=None,
+        message=None,
     ) -> None:
         if min_len is not None:
             self.min_len = min_len
