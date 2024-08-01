@@ -19,7 +19,7 @@ services:
       - ../.env
 
   backend:
-    container_name: foodgram-app
+    container_name: foodgram-back
     image: goldenlion52rus/foodgram_back:latest
     build: ../backend
     restart: always

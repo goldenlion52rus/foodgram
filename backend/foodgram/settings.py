@@ -1,16 +1,16 @@
 import os
-from dotenv import load_dotenv
 from pathlib import Path
 
 from decouple import Csv, config
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['158.160.77.229', '127.0.0.1', 'localhost', 'mytopfood.zapto.org']
 

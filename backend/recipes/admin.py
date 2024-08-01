@@ -3,14 +3,21 @@ from django.contrib.admin import (
     TabularInline,
     display,
     register,
-    site,
+    site
 )
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils.html import format_html
 from django.utils.safestring import SafeString, mark_safe
-from recipes.forms import TagForm
 
-from recipes.models import AmountIngredient, Ingredient, Recipe, Tag, Favorites, Carts
+from recipes.forms import TagForm
+from recipes.models import (
+    AmountIngredient,
+    Carts,
+    Favorites,
+    Ingredient,
+    Recipe,
+    Tag
+)
 
 site.site_header = "Администрирование Foodgram"
 

@@ -1,6 +1,11 @@
 import pytest
-from backend.core.validators import OneOfTwoValidator, MinLenValidator, hex_color_validator
 from django.core.exceptions import ValidationError
+
+from backend.core.validators import (
+    MinLenValidator,
+    OneOfTwoValidator,
+    hex_color_validator
+)
 
 correct_words = ('Алёша', 'Artur')
 invalid_words = ('Алёшаtur', 'Иван 3', 'Ro.Bot')

@@ -40,7 +40,8 @@ class AdminOrReadOnly(BanPermission):
     Остальным только чтение объекта.
     """
 
-    def has_object_permission(self, request: WSGIRequest, view: APIRootView, **kwargs) -> bool:
+    def has_object_permission(self, request: WSGIRequest, 
+                              view: APIRootView, **kwargs) -> bool:
         return (
             request.method in SAFE_METHODS
             or request.user.is_authenticated

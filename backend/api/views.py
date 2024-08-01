@@ -1,35 +1,36 @@
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.handlers.wsgi import WSGIRequest
+from django.db.models import Q, QuerySet
+from django.http.response import HttpResponse
+from djoser.views import UserViewSet as DjoserUserViewSet
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.routers import APIRootView
+from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+
 from api.mixins import AddDelViewMixin
 from api.paginators import PageLimitPagination
 from api.permissions import (
     AdminOrReadOnly,
     AuthorStaffOrReadOnly,
     DjangoModelPermissions,
-    IsAuthenticated,
+    IsAuthenticated
 )
-from django.conf import settings
-from rest_framework.generics import get_object_or_404
 from api.serializers import (
     IngredientSerializer,
     RecipeSerializer,
     ShortRecipeSerializer,
     TagSerializer,
-    UserSubscribeSerializer,
-    UserAvatarSerializer
+    UserAvatarSerializer,
+    UserSubscribeSerializer
 )
 from core.enums import Tuples, UrlQueries
 from core.services import create_shoping_list, maybe_incorrect_layout
-from django.contrib.auth import get_user_model
-from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Q, QuerySet
-from django.http.response import HttpResponse
-from djoser.views import UserViewSet as DjoserUserViewSet
 from recipes.models import Carts, Favorites, Ingredient, Recipe, Tag
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.routers import APIRootView
-from rest_framework.status import HTTP_400_BAD_REQUEST
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from users.models import Subscriptions
 
 User = get_user_model()

@@ -1,18 +1,18 @@
-import base64 #
-import datetime as dt #
+import base64
+import datetime as dt
 from collections import OrderedDict
 
-from rest_framework import serializers #
-from django.core.files.base import ContentFile #
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.db.models import F, QuerySet
+from django.db.transaction import atomic
+from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from core.services import recipe_ingredients_set
 from core.validators import ingredients_validator, tags_exist_validator
-from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.db.models import F, QuerySet
-from django.db.transaction import atomic
 from recipes.models import Ingredient, Recipe, Tag
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 User = get_user_model()
 
