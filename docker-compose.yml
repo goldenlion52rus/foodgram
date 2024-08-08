@@ -30,6 +30,6 @@ services:
     env_file: .env
     volumes:
       - static:/staticfiles
-      - media:/var/html/media/
+      - media:/var/www/foodgram/media/
     ports:
       - 8008:80
