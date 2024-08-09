@@ -23,6 +23,8 @@ services:
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static_volume:/frontend_static
+    depends_on:
+      - db
   gateway:
     image: ${USERNAME}/foodgram_gateway
     env_file: .env
