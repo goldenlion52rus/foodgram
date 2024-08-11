@@ -53,16 +53,13 @@ class MyUser(AbstractUser):
             Установлено ограничение по максимальной длине.
         password(str):
             Пароль для авторизации.
-            Внутри Django проходит хэш-функцию с добавлением
-            `соли` settings.SECRET_KEY.
-            Хранится в зашифрованном виде.
             Установлено ограничение по максимальной длине.
         is_active (bool):
             Активен или заблокирован пользователь.
     """
 
     email = EmailField(
-        verbose_name="Адрес электронной почты",
+        verbose_name="Адрес электронной почты.",
         max_length=Limits.MAX_LEN_EMAIL_FIELD.value,
         unique=True,
         help_text=texsts.USERS_HELP_EMAIL,
@@ -135,7 +132,6 @@ class MyUser(AbstractUser):
 
     @classmethod
     def normalize_email(cls, email: str) -> str:
-        """Normalize the email address by lowercasing the domain part of it."""
         email = email or ""
         try:
             email_name, domain_part = email.strip().rsplit("@", 1)
@@ -150,15 +146,7 @@ class MyUser(AbstractUser):
         return unicodedata.normalize("NFKC", username).capitalize()
 
     def __normalize_human_names(self, name: str) -> str:
-        """Нормализует имена и фамилии. Например:
-        - Эрих Мария Ремарк
-        - Крестово-Воздвиженский
-
-        Args:
-            name (str): Проверяемое имя.
-        Returns:
-            str: Нормализованное имя.
-        """
+        """Нормализует имена и фамилии."""
         storage = [None] * len(name)
         title = True
         idx = 0

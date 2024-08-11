@@ -62,7 +62,7 @@ class Tag(Model):
 
     Example:
         Tag('Завтрак', '01AB89', 'breakfirst')
-        Tag('Завтрак', '01AB89', 'zavtrak')
+        Tag('Завтрак', '01AB89', 'zavtrak').
     """
 
     name = CharField(

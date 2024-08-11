@@ -22,7 +22,6 @@ CSRF_TRUSTED_ORIGINS = config(
 
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -71,9 +70,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -85,9 +81,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -130,8 +123,6 @@ DJOSER = {
     },
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
 
@@ -166,7 +157,7 @@ LOGGING = {
     },
     "loggers": {
         "django.db.backends": {
-            "level": "DEBUG",  # if DEBUG else 'ERROR',
+            "level": "DEBUG",
             "handlers": [
                 "console",
             ],
