@@ -15,7 +15,7 @@ from recipes.models import (
     ShoppingCart,
     Tag
 )
-from users.models import Subscribe, User
+from users.models import Subscribe
 
 User = get_user_model()
 
