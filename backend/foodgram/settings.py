@@ -145,8 +145,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.MyUser"
 
-PASSWORD_RESET_TIMEOUT = 60 * 60
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

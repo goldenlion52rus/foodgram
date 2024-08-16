@@ -1,38 +1,27 @@
-from django.contrib.admin import register
-from django.contrib.auth.admin import UserAdmin
+from django.contrib import admin
 
-from users.models import MyUser
+from .models import Subscribe, User
 
 
-@register(MyUser)
-class MyUserAdmin(UserAdmin):
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
     list_display = (
-        "is_active",
-        "username",
-        "first_name",
-        "last_name",
-        "email",
+        'id',
+        'username',
+        'email',
+        'role',
+        'first_name',
+        'last_name',
+        'password',
     )
-    fields = (
-        ("is_active",),
-        (
-            "username",
-            "email",
-        ),
-        (
-            "first_name",
-            "last_name",
-        ),
-    )
-    fieldsets = []
+    search_fields = ('email', 'username')
+    list_filter = ('email', 'username')
+    empty_value_display = '-пусто-'
 
-    search_fields = (
-        "username",
-        "email",
-    )
-    list_filter = (
-        "is_active",
-        "first_name",
-        "email",
-    )
-    save_on_top = True
+
+@admin.register(Subscribe)
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('user', 'author')
+    list_filter = ('user', 'author')
+    search_fields = ('user', 'author')
+    empty_value_display = '-пусто-'

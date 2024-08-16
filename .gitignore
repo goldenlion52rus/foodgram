@@ -149,6 +149,3 @@ media/
 
 # Others
 node_modules
-
-#added frontend dir for review
-frontend/
