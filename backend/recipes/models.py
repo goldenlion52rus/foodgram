@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import UniqueConstraint
@@ -6,7 +7,7 @@ from django.urls import reverse
 
 from users.models import CustomUser
 
-from .const import (
+from .consts import (
     LEN_COLOR,
     LEN_INGREDIENT_MEASUREMENT_UNIT,
     LEN_INGREDIENT_NAME,
@@ -123,6 +124,12 @@ class Recipe(models.Model):
         ordering = ['-pub_date']
         verbose_name = 'рецепт'
         verbose_name_plural = 'Рецепты'
+
+    def clean(self):
+        super().clean()
+        if not self.ingredients.exists():
+            raise ValidationError('Рецепт должен содержать \
+                                  хотя бы один ингредиент!')
 
     def __str__(self):
         return self.name

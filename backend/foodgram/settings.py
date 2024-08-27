@@ -10,7 +10,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
 
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['158.160.77.229', '127.0.0.1', 'localhost', 'mytopfood.zapto.org']
 
@@ -20,7 +20,7 @@ CSRF_TRUSTED_ORIGINS = config(
     cast=Csv(),
 )
 
-DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
+PAGE_SIZE = 6
 
 
 INSTALLED_APPS = [

@@ -29,12 +29,7 @@ from api.serializers import (
     TagSerializer,
     UserAvatarSerializer
 )
-from recipes.models import (
-    Ingredient,
-    Recipe,
-    Tag,
-    RecipesIngredients,
-)
+from recipes.models import Ingredient, Recipe, RecipesIngredients, Tag
 from users.models import Subscribe
 
 User = get_user_model()
@@ -78,14 +73,14 @@ class UsersViewSet(UserViewSet):
 
         user = request.user
         author = get_object_or_404(User, id=id)
-        is_subscribed = user.follower.filter(author=author).exists()
 
         if request.method == 'POST':
-            if author == user or is_subscribed:
+            if author == user:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             serializer = SubscribeSerializer(author, context={'request': request})
             Subscribe.objects.create(user=user, author=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        is_subscribed = user.follower.filter(author=author).exists()
         if not is_subscribed:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         user.follower.filter(author=author).delete()

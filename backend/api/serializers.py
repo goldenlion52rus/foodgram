@@ -3,9 +3,10 @@ import base64
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
+from django.db import transaction
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers, status
-from rest_framework.serializers import SerializerMethodField
+from rest_framework.serializers import IntegerField, SerializerMethodField
 
 from recipes.models import (
     Favorite,
@@ -178,6 +179,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 amount=ingredient.get('amount')
             ) for ingredient in ingredients)
 
+    @transaction.atomic
     def create(self, validated_data):
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
@@ -192,6 +194,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         return recipe
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
@@ -294,7 +297,7 @@ class SubscribeSerializer(CustomUserSerializer):
     """Сериализатор для добавления/удаления подписки, просмотра подписок."""
 
     recipes = SerializerMethodField()
-    recipes_count = SerializerMethodField()
+    recipes_count = IntegerField(source='recipes.count', read_only=True)
 
     class Meta(CustomUserSerializer.Meta):
         fields = (
@@ -344,6 +347,3 @@ class SubscribeSerializer(CustomUserSerializer):
             recipes = recipes[:int(recipes_limit)]
         serializer = ShortRecipeSerializer(recipes, context=context, many=True)
         return serializer.data
-
-    def get_recipes_count(self, obj):
-        return obj.recipes.count()
