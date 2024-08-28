@@ -14,7 +14,6 @@ from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly
 )
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from api.filters import IngredientFilter, RecipeFilter
@@ -77,7 +76,8 @@ class UsersViewSet(UserViewSet):
         if request.method == 'POST':
             if author == user:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            serializer = SubscribeSerializer(author, context={'request': request})
+            serializer = SubscribeSerializer(
+                author, context={'request': request})
             Subscribe.objects.create(user=user, author=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         is_subscribed = user.follower.filter(author=author).exists()
@@ -146,7 +146,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if self.action in SAFE_METHODS:
             return GetRecipeSerializer
         return RecipeSerializer
-    
+
     def add_to(self, serializer):
         serializer.save(author=self.request.user)
 
@@ -179,8 +179,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 data={'errors': 'Этого рецепта нет в избранном.'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
-    
+
     @action(
         detail=True,
         methods=['GET'],
@@ -192,7 +191,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             {'short-link': f'{settings.HOST}/recipes/{pk}'},
             status=status.HTTP_200_OK
         )
-    
+
     @action(
         methods=['GET'],
         detail=False,
@@ -228,4 +227,3 @@ class RecipeViewSet(viewsets.ModelViewSet):
         response['Content-Disposition'] = f'attachment; filename={filename}'
 
         return response
-
