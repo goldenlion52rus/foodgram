@@ -216,9 +216,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             f'Дата: {today:%d-%m-%Y}\n\n'
         )
         shopping_list += '\n'.join([
-            f'- {ingredient['ingredient__name']}' # noqa
-            f'({ingredient['ingredient__measurement_unit']})'
-            f' - {ingredient['quantity']}'
+            f"- {ingredient['ingredient__name']}" # noqa
+            f"({ingredient['ingredient__measurement_unit']})"
+            f" - {ingredient['quantity']}"
             for ingredient in ingredients
         ])
         shopping_list += f'\n\nFoodgram ({today:%Y})'

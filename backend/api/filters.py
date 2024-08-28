@@ -19,7 +19,7 @@ class IngredientFilter(FilterSet):
         fields = ('name', 'measurement_unit')
 
 
-class RecipeFilter(filters.FilterSet):
+class RecipeFilter(FilterSet):
     """Фильтр рецептов в списке покупок."""
     tags = filters.ModelMultipleChoiceFilter(
         field_name='tags__slug',

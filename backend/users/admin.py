@@ -9,14 +9,11 @@ class UserAdmin(admin.ModelAdmin):
         'id',
         'username',
         'email',
-        'role',
         'first_name',
         'last_name',
-        'password',
+        'avatar',
     )
     search_fields = ('email', 'username')
-    list_filter = ('email', 'username')
-    empty_value_display = '-пусто-'
 
 
 @admin.register(Subscribe)

@@ -5,8 +5,7 @@ from django.db import models
 from django.db.models import UniqueConstraint
 from django.urls import reverse
 
-from users.models import CustomUser
-
+from users.models import User
 from .consts import (
     LEN_COLOR,
     LEN_INGREDIENT_MEASUREMENT_UNIT,
@@ -18,8 +17,6 @@ from .consts import (
     MAX_COOKING_TIME,
     MIN_COOKING_TIME
 )
-
-User = get_user_model()
 
 
 class Tag(models.Model):
@@ -97,7 +94,7 @@ class Recipe(models.Model):
     )
     ingredients = models.ManyToManyField(
         Ingredient,
-        through='RecipeIngredient',
+        through='RecipesIngredients',
         verbose_name='Ингредиенты',
         related_name='recipes',
     )
@@ -142,7 +139,7 @@ class ShoppingCart(models.Model):
     """Список покупок."""
 
     user = models.ForeignKey(
-        CustomUser,
+        User,
         on_delete=models.CASCADE,
         related_name='shopping_cart',
         verbose_name='Пользователь',
