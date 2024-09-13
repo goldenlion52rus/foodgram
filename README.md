@@ -57,11 +57,3 @@ python3 manage.py runserver
 
 Над проектом работал: 
 https://github.com/goldenlion52rus
-
-
-site: https://mytopfood.zapto.org/recipes
-
-
-for admin:
-login: Admin
-password: admin
