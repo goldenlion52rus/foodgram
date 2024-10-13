@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['158.160.77.229', '127.0.0.1', 'localhost', 'mytopfood.zapto.org']
+ALLOWED_HOSTS = ['158.160.77.229', '127.0.0.1', 'localhost', 'mytopfood.ddns.net']
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
@@ -166,4 +166,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
 
-HOST = "https://mytopfood.zapto.org"
+HOST = "mytopfood.ddns.net" #my site
