@@ -166,4 +166,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
 
-HOST = "mytopfood.ddns.net" #my site
+HOST = "mytopfood.ddns.net"
