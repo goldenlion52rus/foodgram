@@ -4,7 +4,7 @@
 
 Стек: Python3, Django3, Django REST framework, React, PostgreSQL, gunicorn, nginx
 
-Проект доступен по доменному имени https://mytopfood.zapto.org/recipes
+Проект доступен по доменному имени https://mytopfood.ddns.net/recipes
 
 # Как запустить проект:
 
